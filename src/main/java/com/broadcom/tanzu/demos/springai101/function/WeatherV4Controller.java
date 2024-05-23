@@ -16,11 +16,7 @@
 
 package com.broadcom.tanzu.demos.springai101.function;
 
-import com.broadcom.tanzu.demos.springai101.weather.WeatherService;
 import org.springframework.ai.chat.ChatClient;
-import org.springframework.ai.chat.messages.Media;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,24 +29,18 @@ import java.net.URL;
 class WeatherV4Controller {
     private final ChatClient chatClient;
 
-    @Value("classpath:/paris.jpg")
-    private Resource paris;
-
-    @Value("classpath:/lyon.jpg")
-    private Resource lyon;
-
     WeatherV4Controller(ChatClient chatClient) {
         this.chatClient = chatClient;
     }
 
     @GetMapping(value = "/weather/v4", produces = MediaType.APPLICATION_JSON_VALUE)
     TemperatureResponse weather(@RequestParam("u") URL url) {
-        // TODO get the image using the URL parameter
         return chatClient.prompt()
                 .user(p -> p.text("""
-                        Describe this photo, and find out the city.
-                        Then, get the current weather for this city.
-                        """).media(new Media(MimeTypeUtils.IMAGE_JPEG, lyon)))
+                                Describe this photo, and find out the city.
+                                Then, get the current weather for this city.
+                                """)
+                        .media(MimeTypeUtils.IMAGE_JPEG, url))
                 .functions("getWeatherByCity")
                 .call()
                 .entity(TemperatureResponse.class);
