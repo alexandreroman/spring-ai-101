@@ -30,7 +30,7 @@ class WeatherV3Controller {
         this.chatClient = chatClient;
     }
 
-    @GetMapping(value = "/weather/v3", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/weather/v3", produces = MediaType.TEXT_PLAIN_VALUE)
     String weather(@RequestParam("q") String query) {
         return chatClient.prompt()
                 .user(p -> p.text(query))
