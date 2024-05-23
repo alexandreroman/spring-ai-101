@@ -16,7 +16,6 @@
 
 package com.broadcom.tanzu.demos.springai101.function;
 
-import com.broadcom.tanzu.demos.springai101.weather.WeatherService;
 import org.springframework.ai.chat.ChatClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,7 +34,7 @@ class WeatherV1Controller {
     String weather(@RequestParam("city") String city) {
         return chatClient.prompt()
                 .user(p -> p.text("What is the current temperature in {city}?").param("city", city))
-                .functions("getWeatherByCity")
+                .functions(Functions.GET_WEATHER_BY_CITY)
                 .call()
                 .content();
     }

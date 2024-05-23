@@ -41,7 +41,7 @@ class WeatherV4Controller {
                                 Then, get the current weather for this city.
                                 """)
                         .media(MimeTypeUtils.IMAGE_JPEG, url))
-                .functions("getWeatherByCity")
+                .functions(Functions.GET_WEATHER_BY_CITY)
                 .call()
                 .entity(TemperatureResponse.class);
     }

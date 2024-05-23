@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.broadcom.tanzu.demos.springai101.ai;
+package com.broadcom.tanzu.demos.springai101.function;
 
 import com.broadcom.tanzu.demos.springai101.weather.Weather;
 import com.broadcom.tanzu.demos.springai101.weather.WeatherService;
@@ -27,8 +27,10 @@ import org.springframework.context.annotation.Description;
 import java.util.function.Function;
 
 @Configuration(proxyBeanMethods = false)
-class FunctionsConfig {
-    private final Logger logger = LoggerFactory.getLogger(FunctionsConfig.class);
+class Functions {
+    public static final String GET_WEATHER_BY_CITY = "getWeatherByCity";
+
+    private final Logger logger = LoggerFactory.getLogger(Functions.class);
 
     @Bean
     @Description("Get the current weather in a given city, including temperature (in Celsius)")
