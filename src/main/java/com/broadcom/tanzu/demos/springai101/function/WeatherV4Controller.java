@@ -37,7 +37,7 @@ class WeatherV4Controller {
     TemperatureResponse weather(@RequestParam("u") URL url) {
         return chatClient.prompt()
                 .user(p -> p.text("""
-                                Describe this photo, and find out the city.
+                                Find out the city in this image.
                                 Then, get the current weather for this city.
                                 """)
                         .media(MimeTypeUtils.IMAGE_JPEG, url))
