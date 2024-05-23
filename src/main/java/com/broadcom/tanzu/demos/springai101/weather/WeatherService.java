@@ -16,17 +16,27 @@
 
 package com.broadcom.tanzu.demos.springai101.weather;
 
+import io.micrometer.observation.Observation;
+import io.micrometer.observation.ObservationRegistry;
 import org.springframework.stereotype.Service;
 
 @Service
 public class WeatherService {
     private final WeatherApi api;
+    private final ObservationRegistry observationRegistry;
 
-    WeatherService(WeatherApi api) {
+    WeatherService(WeatherApi api, ObservationRegistry observationRegistry) {
         this.api = api;
+        this.observationRegistry = observationRegistry;
     }
 
     public Weather getWeatherByCity(String city) {
+        return Observation.createNotStarted("getWeatherByCity", observationRegistry)
+                .highCardinalityKeyValue("city", city)
+                .observe(() -> doGetWeatherByCity(city));
+    }
+
+    private Weather doGetWeatherByCity(String city) {
         return new Weather(city, api.getWeather(city, "metric").details().temperature());
     }
 }
