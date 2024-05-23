@@ -16,20 +16,17 @@
 
 package com.broadcom.tanzu.demos.springai101.weather;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class WeatherService {
     private final WeatherApi api;
-    private final String owmApiKey;
 
-    WeatherService(WeatherApi api, @Value("${openweathermap.api-key}") String owmApiKey) {
+    WeatherService(WeatherApi api) {
         this.api = api;
-        this.owmApiKey = owmApiKey;
     }
 
     public Weather getWeatherByCity(String city) {
-        return new Weather(city, api.getWeather(city, owmApiKey, "metric").details().temperature());
+        return new Weather(city, api.getWeather(city, "metric").details().temperature());
     }
 }

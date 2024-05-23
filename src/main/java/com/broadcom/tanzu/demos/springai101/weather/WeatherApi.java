@@ -26,7 +26,6 @@ import org.springframework.web.service.annotation.HttpExchange;
 interface WeatherApi {
     @GetExchange("/data/2.5/weather")
     Weather getWeather(@RequestParam("q") String city,
-                       @RequestParam("appid") String appid,
                        @RequestParam("units") String units);
 
     record Weather(
