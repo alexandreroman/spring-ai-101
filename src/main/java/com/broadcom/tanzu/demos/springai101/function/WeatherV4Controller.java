@@ -35,6 +35,10 @@ class WeatherV4Controller {
 
     @GetMapping(value = "/weather/v4", produces = MediaType.APPLICATION_JSON_VALUE)
     TemperatureResponse weather(@RequestParam("u") URL url) {
+        // This endpoint shows how to build a multimodal prompt:
+        // - a text based prompt
+        // - an image URL included as part of your prompt
+        // - a result mapped to a Java construct
         return chatClient.prompt()
                 .user(p -> p.text("""
                                 Find out the city in this image.

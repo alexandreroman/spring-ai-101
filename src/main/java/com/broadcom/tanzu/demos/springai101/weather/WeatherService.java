@@ -31,6 +31,7 @@ public class WeatherService {
     }
 
     public Weather getWeatherByCity(String city) {
+        // Observe service calls using Micrometer API.
         return Observation.createNotStarted("getWeatherByCity", observationRegistry)
                 .highCardinalityKeyValue("city", city)
                 .observe(() -> doGetWeatherByCity(city));

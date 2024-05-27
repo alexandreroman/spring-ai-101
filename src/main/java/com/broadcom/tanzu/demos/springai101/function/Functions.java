@@ -35,12 +35,16 @@ class Functions {
     @Bean
     @Description("Get the current weather in a given city, including temperature (in Celsius)")
     Function<ByCityRequest, Weather> getWeatherByCity(WeatherService weatherService) {
+        // Map a Spring AI function (including description which will be used by the LLM) to your business function.
         return req -> {
             logger.info("Loading weather in {} using OpenWeatherMap", req.city());
             return weatherService.getWeatherByCity(req.city());
         };
     }
 
+    /**
+     * A record holding a city based request when using functions..
+     */
     record ByCityRequest(String city) {
     }
 }

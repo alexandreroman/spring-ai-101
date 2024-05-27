@@ -32,6 +32,7 @@ class WeatherV1Controller {
 
     @GetMapping(value = "/weather/v1", produces = MediaType.TEXT_PLAIN_VALUE)
     String weather(@RequestParam("city") String city) {
+        // Rely on a function to get additional (live) data.
         return chatClient.prompt()
                 .user(p -> p.text("What is the current temperature in {city}?").param("city", city))
                 .functions(Functions.GET_WEATHER_BY_CITY)

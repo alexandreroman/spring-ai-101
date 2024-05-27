@@ -34,6 +34,7 @@ import java.net.URI;
 class WeatherApiConfig {
     @Bean
     WeatherApi weatherApi(RestClient.Builder rcb, @Value("${openweathermap.api-key}") String owmApiKey) {
+        // Create a RestClient interface bound to OpenWeatherMap API.
         final var restClient = rcb.clone()
                 .baseUrl("https://api.openweathermap.org")
                 .requestFactory(new SimpleClientHttpRequestFactory() {
@@ -46,6 +47,7 @@ class WeatherApiConfig {
                     }
                 })
                 .build();
+        // Create a client interface implementation for the OpenWeatherMap API.
         return HttpServiceProxyFactory.builderFor(RestClientAdapter.create(restClient))
                 .build()
                 .createClient(WeatherApi.class);

@@ -22,6 +22,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.service.annotation.GetExchange;
 import org.springframework.web.service.annotation.HttpExchange;
 
+/**
+ * Client interface to get weather information leveraging OpenWeatherMap API.
+ */
 @HttpExchange(contentType = MediaType.APPLICATION_JSON_VALUE)
 interface WeatherApi {
     @GetExchange("/data/2.5/weather")

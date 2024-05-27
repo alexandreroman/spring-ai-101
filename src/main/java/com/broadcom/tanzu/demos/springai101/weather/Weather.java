@@ -16,6 +16,12 @@
 
 package com.broadcom.tanzu.demos.springai101.weather;
 
+/**
+ * Hold weather information for a city.
+ *
+ * @param city        city name
+ * @param temperature temperature in Celsius
+ */
 public record Weather(
         String city,
         float temperature

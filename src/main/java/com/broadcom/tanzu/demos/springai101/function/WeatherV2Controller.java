@@ -32,6 +32,8 @@ class WeatherV2Controller {
 
     @GetMapping(value = "/weather/v2", produces = MediaType.APPLICATION_JSON_VALUE)
     TemperatureResponse weather(@RequestParam("city") String city) {
+        // Note the use of entity() to map the response to a Java construct that you can use in your app.
+        // This allows you to use AI generated responses without having to manually parse the content.
         return chatClient.prompt()
                 .user(p -> p.text("What is the current temperature in {city}?").param("city", city))
                 .functions(Functions.GET_WEATHER_BY_CITY)

@@ -32,6 +32,7 @@ class ChatV1Controller {
 
     @GetMapping(value = "/chat/v1", produces = MediaType.TEXT_PLAIN_VALUE)
     String chat(@RequestParam("q") String query) {
+        // A single line API call to connect to your favorite LLM and get a response.
         return chatClient.prompt().user(query).call().content();
     }
 }
