@@ -29,8 +29,8 @@ import java.net.URL;
 class WeatherV4Controller {
     private final ChatClient chatClient;
 
-    WeatherV4Controller(ChatClient chatClient) {
-        this.chatClient = chatClient;
+    WeatherV4Controller(ChatClient.Builder chatClientBuilder) {
+        this.chatClient = chatClientBuilder.build();
     }
 
     @GetMapping(value = "/weather/v4", produces = MediaType.APPLICATION_JSON_VALUE)

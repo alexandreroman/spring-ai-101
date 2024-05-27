@@ -26,8 +26,8 @@ import org.springframework.web.bind.annotation.RestController;
 class ChatV1Controller {
     private final ChatClient chatClient;
 
-    ChatV1Controller(ChatClient chatClient) {
-        this.chatClient = chatClient;
+    ChatV1Controller(ChatClient.Builder chatClientBuilder) {
+        this.chatClient = chatClientBuilder.build();
     }
 
     @GetMapping(value = "/chat/v1", produces = MediaType.TEXT_PLAIN_VALUE)

@@ -26,8 +26,8 @@ import org.springframework.web.bind.annotation.RestController;
 class WeatherV2Controller {
     private final ChatClient chatClient;
 
-    WeatherV2Controller(ChatClient chatClient) {
-        this.chatClient = chatClient;
+    WeatherV2Controller(ChatClient.Builder chatClientBuilder) {
+        this.chatClient = chatClientBuilder.build();
     }
 
     @GetMapping(value = "/weather/v2", produces = MediaType.APPLICATION_JSON_VALUE)

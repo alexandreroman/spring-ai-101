@@ -26,8 +26,8 @@ import org.springframework.web.bind.annotation.RestController;
 class WeatherV3Controller {
     private final ChatClient chatClient;
 
-    WeatherV3Controller(ChatClient chatClient) {
-        this.chatClient = chatClient;
+    WeatherV3Controller(ChatClient.Builder chatClientBuilder) {
+        this.chatClient = chatClientBuilder.build();
     }
 
     @GetMapping(value = "/weather/v3", produces = MediaType.TEXT_PLAIN_VALUE)

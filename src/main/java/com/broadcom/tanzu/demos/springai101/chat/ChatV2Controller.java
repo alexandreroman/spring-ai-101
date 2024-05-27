@@ -34,8 +34,8 @@ class ChatV2Controller {
     @Value("classpath:/system-chat.st")
     private Resource sysText;
 
-    ChatV2Controller(ChatClient chatClient) {
-        this.chatClient = chatClient;
+    ChatV2Controller(ChatClient.Builder chatClientBuilder) {
+        this.chatClient = chatClientBuilder.build();
     }
 
     @GetMapping(value = "/chat/v2", produces = MediaType.TEXT_PLAIN_VALUE)
