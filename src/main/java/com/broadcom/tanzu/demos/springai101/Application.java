@@ -16,8 +16,8 @@
 
 package com.broadcom.tanzu.demos.springai101;
 
-import org.springframework.ai.chat.ChatClient;
-import org.springframework.ai.chat.ChatModel;
+import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
