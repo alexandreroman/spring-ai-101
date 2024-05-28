@@ -26,7 +26,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
 @Configuration(proxyBeanMethods = false)
-@ConditionalOnProperty(name = "app.ai-provider", havingValue = "mistralai", matchIfMissing = true)
+@ConditionalOnProperty(name = "app.ai-provider", havingValue = "mistralai")
 class MistralAIConfig {
     @Bean
     ChatClient.Builder chatClientBuilder(MistralAiChatModel mistralAiChatModel) {
