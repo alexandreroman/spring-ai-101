@@ -23,17 +23,26 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Description;
+import org.springframework.core.task.AsyncTaskExecutor;
 
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Configuration(proxyBeanMethods = false)
 class Functions {
     public static final String GET_WEATHER_BY_CITY = "getWeatherByCity";
+    public static final String GET_WEATHER_BY_CITIES = "getWeatherByCities";
 
     private final Logger logger = LoggerFactory.getLogger(Functions.class);
 
     @Bean
-    @Description("Get the current weather in a given city, including temperature (in Celsius)")
+    @Description("""
+            Get the current weather in a given city, including temperature (in Celsius).
+            Call this function if you need to get the weather for a single city.
+            """)
     Function<ByCityRequest, Weather> getWeatherByCity(WeatherService weatherService) {
         // Map a Spring AI function (including description which will be used by the LLM) to your business function.
         return req -> {
@@ -42,9 +51,43 @@ class Functions {
         };
     }
 
+    @Bean
+    @Description("""
+            Get the current weather in different cities, all at once.
+            The result is a map of weather details (including temperature in Celsius) by city.
+            Call this function to optimize calls when you need to get the weather for different cities.
+            """)
+    Function<ByCitiesRequest, Map<String, Weather>> getWeatherByCities(WeatherService weatherService, AsyncTaskExecutor taskExecutor) {
+        return req -> {
+            if (logger.isInfoEnabled()) {
+                final var citiesStr = String.join(", ", req.cities());
+                logger.info("Loading weather from different cities ({}) using OpenWeatherMap", citiesStr);
+            }
+
+            final var tasks = new ArrayList<CompletableFuture<Weather>>(req.cities().length);
+            for (final var city : req.cities()) {
+                final var task = taskExecutor.submitCompletable(() -> {
+                    logger.debug("Asynchronously loading weather in {} using OpenWeatherMap", city);
+                    return weatherService.getWeatherByCity(city);
+                });
+                tasks.add(task);
+            }
+
+            return tasks.stream()
+                    .map(CompletableFuture::join)
+                    .collect(Collectors.toMap(Weather::city, Function.identity()));
+        };
+    }
+
     /**
-     * A record holding a city based request when using functions..
+     * A record holding a city based request when using functions.
      */
     record ByCityRequest(String city) {
+    }
+
+    /**
+     * A record holding cities.
+     */
+    record ByCitiesRequest(String[] cities) {
     }
 }

@@ -33,10 +33,10 @@ class WeatherV3Controller {
     @GetMapping(value = "/weather/v3", produces = MediaType.TEXT_PLAIN_VALUE)
     String weather(@RequestParam("q") String query) {
         // Use this endpoint to query your LLM with any requests.
-        // Whenever you ask for weather information for one or more cities, the function will be automatically called.
+        // Whenever you ask for weather information for one or more cities, the functions will be automatically called.
         return chatClient.prompt()
                 .user(query)
-                .functions(Functions.GET_WEATHER_BY_CITY)
+                .functions(Functions.GET_WEATHER_BY_CITY, Functions.GET_WEATHER_BY_CITIES)
                 .call()
                 .content();
     }
