@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.broadcom.tanzu.demos.springai101.function;
+package com.broadcom.tanzu.demos.springai101.weather;
 
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.http.MediaType;
@@ -23,20 +23,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-class WeatherV3Controller {
+class WeatherV1Controller {
     private final ChatClient chatClient;
 
-    WeatherV3Controller(ChatClient.Builder chatClientBuilder) {
+    WeatherV1Controller(ChatClient.Builder chatClientBuilder) {
         this.chatClient = chatClientBuilder.build();
     }
 
-    @GetMapping(value = "/weather/v3", produces = MediaType.TEXT_PLAIN_VALUE)
-    String weather(@RequestParam("q") String query) {
-        // Use this endpoint to query your LLM with any requests.
-        // Whenever you ask for weather information for one or more cities, the functions will be automatically called.
+    @GetMapping(value = "/weather/v1", produces = MediaType.TEXT_PLAIN_VALUE)
+    String weather(@RequestParam("city") String city) {
+        // Rely on a function to get additional (live) data.
         return chatClient.prompt()
-                .user(query)
-                .functions(Functions.GET_WEATHER_BY_CITY, Functions.GET_WEATHER_BY_CITIES)
+                .user(p -> p.text("What is the current temperature in {city}?").param("city", city))
+                .functions(WeatherFunctions.GET_WEATHER_BY_CITY)
                 .call()
                 .content();
     }

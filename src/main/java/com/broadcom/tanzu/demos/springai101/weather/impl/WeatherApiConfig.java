@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.broadcom.tanzu.demos.springai101.weather;
+package com.broadcom.tanzu.demos.springai101.weather.impl;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;

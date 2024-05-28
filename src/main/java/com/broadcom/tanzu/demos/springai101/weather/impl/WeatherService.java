@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package com.broadcom.tanzu.demos.springai101.weather;
+package com.broadcom.tanzu.demos.springai101.weather.impl;
 
 import io.micrometer.observation.Observation;
 import io.micrometer.observation.ObservationRegistry;
 import org.springframework.stereotype.Service;
 
 @Service
-public class WeatherService {
+class WeatherService {
     private final WeatherApi api;
     private final ObservationRegistry observationRegistry;
 

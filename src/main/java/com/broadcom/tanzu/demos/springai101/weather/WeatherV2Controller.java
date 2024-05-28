@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.broadcom.tanzu.demos.springai101.function;
+package com.broadcom.tanzu.demos.springai101.weather;
 
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.http.MediaType;
@@ -36,7 +36,7 @@ class WeatherV2Controller {
         // This allows you to use AI generated responses without having to manually parse the content.
         return chatClient.prompt()
                 .user(p -> p.text("What is the current temperature in {city}?").param("city", city))
-                .functions(Functions.GET_WEATHER_BY_CITY)
+                .functions(WeatherFunctions.GET_WEATHER_BY_CITY)
                 .call()
                 .entity(TemperatureResponse.class);
     }

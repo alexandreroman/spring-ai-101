@@ -14,10 +14,8 @@
  * limitations under the License.
  */
 
-package com.broadcom.tanzu.demos.springai101.function;
+package com.broadcom.tanzu.demos.springai101.weather.impl;
 
-import com.broadcom.tanzu.demos.springai101.weather.Weather;
-import com.broadcom.tanzu.demos.springai101.weather.WeatherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -32,21 +30,18 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Configuration(proxyBeanMethods = false)
-class Functions {
-    public static final String GET_WEATHER_BY_CITY = "getWeatherByCity";
-    public static final String GET_WEATHER_BY_CITIES = "getWeatherByCities";
-
-    private final Logger logger = LoggerFactory.getLogger(Functions.class);
+class WeatherFunctionsConfig {
+    private final Logger logger = LoggerFactory.getLogger(WeatherFunctionsConfig.class);
 
     @Bean
     @Description("""
             Get the current weather in a given city, including temperature (in Celsius).
-            Call this function if you need to get the weather for a single city.
+            Call this function if you need to get the weather in a single city.
             """)
     Function<ByCityRequest, Weather> getWeatherByCity(WeatherService weatherService) {
         // Map a Spring AI function (including description which will be used by the LLM) to your business function.
         return req -> {
-            logger.info("Loading weather in {} using OpenWeatherMap", req.city());
+            logger.info("Loading weather from {} using OpenWeatherMap", req.city());
             return weatherService.getWeatherByCity(req.city());
         };
     }
@@ -55,7 +50,7 @@ class Functions {
     @Description("""
             Get the current weather in different cities, all at once.
             The result is a map of weather details (including temperature in Celsius) by city.
-            Call this function to optimize calls when you need to get the weather for different cities.
+            Call this function to optimize calls when you need to get the weather in different cities.
             """)
     Function<ByCitiesRequest, Map<String, Weather>> getWeatherByCities(WeatherService weatherService, AsyncTaskExecutor taskExecutor) {
         return req -> {
@@ -67,7 +62,7 @@ class Functions {
             final var tasks = new ArrayList<CompletableFuture<Weather>>(req.cities().length);
             for (final var city : req.cities()) {
                 final var task = taskExecutor.submitCompletable(() -> {
-                    logger.debug("Asynchronously loading weather in {} using OpenWeatherMap", city);
+                    logger.debug("Asynchronously loading weather from {} using OpenWeatherMap", city);
                     return weatherService.getWeatherByCity(city);
                 });
                 tasks.add(task);

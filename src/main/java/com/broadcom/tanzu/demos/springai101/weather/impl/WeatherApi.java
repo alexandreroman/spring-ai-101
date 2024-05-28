@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.broadcom.tanzu.demos.springai101.weather;
+package com.broadcom.tanzu.demos.springai101.weather.impl;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.http.MediaType;

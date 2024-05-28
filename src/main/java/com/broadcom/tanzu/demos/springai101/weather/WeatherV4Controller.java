@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.broadcom.tanzu.demos.springai101.function;
+package com.broadcom.tanzu.demos.springai101.weather;
 
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.http.MediaType;
@@ -45,7 +45,7 @@ class WeatherV4Controller {
                                 Then, get the current weather for this city.
                                 """)
                         .media(MimeTypeUtils.IMAGE_JPEG, url))
-                .functions(Functions.GET_WEATHER_BY_CITY)
+                .functions(WeatherFunctions.GET_WEATHER_BY_CITY)
                 .call()
                 .entity(TemperatureResponse.class);
     }
