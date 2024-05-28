@@ -43,7 +43,7 @@ class ChatV2Controller {
         // Note the use of a system prompt to guide how the LLM should answer to your request.
         // System and user prompts are stored as external resources.
         return chatClient.prompt()
-                .system(p -> p.text(sysText))
+                .system(sysText)
                 .user(p -> p.text(userText).param("topic", topic))
                 .call()
                 .content();

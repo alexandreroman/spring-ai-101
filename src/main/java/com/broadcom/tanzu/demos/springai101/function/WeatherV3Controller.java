@@ -35,7 +35,7 @@ class WeatherV3Controller {
         // Use this endpoint to query your LLM with any requests.
         // Whenever you ask for weather information for one or more cities, the function will be automatically called.
         return chatClient.prompt()
-                .user(p -> p.text(query))
+                .user(query)
                 .functions(Functions.GET_WEATHER_BY_CITY)
                 .call()
                 .content();
