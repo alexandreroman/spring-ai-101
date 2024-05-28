@@ -29,6 +29,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 
 @Configuration(proxyBeanMethods = false)
 class WeatherApiConfig {
@@ -41,7 +43,7 @@ class WeatherApiConfig {
                     @Override
                     public ClientHttpRequest createRequest(URI uri, HttpMethod httpMethod) throws IOException {
                         // Set appid as a query param in every request.
-                        final var newUri = UriComponentsBuilder.fromHttpUrl(uri.toURL().toExternalForm())
+                        final var newUri = UriComponentsBuilder.fromHttpUrl(URLDecoder.decode(uri.toASCIIString(), StandardCharsets.US_ASCII))
                                 .queryParam("appid", owmApiKey).build().toUri();
                         return super.createRequest(newUri, httpMethod);
                     }
