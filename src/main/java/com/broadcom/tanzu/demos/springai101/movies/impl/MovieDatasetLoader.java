@@ -67,9 +67,9 @@ class MovieDatasetLoader {
                 .withCSVParser(new CSVParserBuilder().withSeparator('\t').build()).withSkipLines(1).build()) {
             for (String[] line; (line = reader.readNext()) != null; ++lineNumber) {
                 logger.debug("Parsing line number {}", lineNumber);
-                final var plot = line[4];
-                if (plot == null || plot.isEmpty()) {
-                    // Ignore movies with no plot.
+                final var overview = line[4];
+                if (overview == null || overview.isEmpty()) {
+                    // Ignore movies with no overview.
                     continue;
                 }
 
@@ -79,9 +79,9 @@ class MovieDatasetLoader {
                 final var releaseDate = LocalDate.parse(line[7]);
                 final var credits = line.length <= 15 ? null : line[15].split("-");
 
-                // Create a Movie instance and process it;
+                // Create a Movie instance and process it.
                 final var movie = new Movie(
-                        id, title, genres, releaseDate, plot, credits
+                        id, title, genres, releaseDate, overview, credits
                 );
                 processMovie(movie);
 

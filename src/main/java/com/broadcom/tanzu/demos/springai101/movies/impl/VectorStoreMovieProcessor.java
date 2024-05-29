@@ -44,7 +44,7 @@ class VectorStoreMovieProcessor implements MovieProcessor {
                 Id: %s
                 Title: %s
                 Genres: %s
-                Plot: %s
+                Overview: %s
                 Released: %s
                 Credits: %s
                 """;
@@ -52,7 +52,7 @@ class VectorStoreMovieProcessor implements MovieProcessor {
         final var movieContent = String.format(movieContentTpl,
                 movie.id(), movie.title(),
                 String.join(", ", movie.genres()),
-                movie.plot(), releaseDateStr,
+                movie.overview(), releaseDateStr,
                 movie.credits() == null ? "" : String.join(", ", movie.credits()));
 
         //

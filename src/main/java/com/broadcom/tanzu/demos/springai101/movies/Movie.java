@@ -28,7 +28,7 @@ public record Movie(
         String[] genres,
         @JsonFormat(pattern = "yyyy-MM-dd")
         LocalDate releaseDate,
-        String plot,
+        String overview,
         String[] credits
 ) {
 }

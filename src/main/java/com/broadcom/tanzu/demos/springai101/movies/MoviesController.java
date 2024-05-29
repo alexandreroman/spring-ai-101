@@ -45,7 +45,7 @@ class MoviesController {
     MovieMashupResponse movieMashup(@RequestParam("titles") String[] titles,
                                     @RequestParam(name = "genre", defaultValue = "comedy") String genre) {
         // Look for additional data.
-        final var moviesById = new HashMap<String, Document>(4);
+        final var moviesById = new HashMap<String, Document>(2);
         for (final String title : titles) {
             logger.info("Looking up movies with title: {}", title);
 
@@ -57,13 +57,13 @@ class MoviesController {
         }
 
         logger.info("Generating a new movie of genre {} using {} movie(s) as sources", genre, moviesById.size());
-        final var movieList = moviesById.values().stream().map(Document::getContent).collect(Collectors.joining("\n"));
+        final var movies = moviesById.values().stream().map(Document::getContent).collect(Collectors.joining("\n"));
         return chatClient.prompt()
                 // Let's build a prompt which is augmented with additional data:
                 // this is what Retrieval Augmented Generation (RAG) is all about.
                 .user(p -> p.text("""
                                 Using only entries from the section SOURCES,
-                                create a movie plot for a new movie of genre {genre}.
+                                create a movie overview for a new movie of genre {genre}.
                                 Generate a new title for this new movie.
 
                                 SOURCES
@@ -71,7 +71,7 @@ class MoviesController {
                                 {movies}
                                 """)
                         .param("genre", genre)
-                        .param("movies", movieList))
+                        .param("movies", movies))
                 .call()
                 .entity(MovieMashupResponse.class);
     }
@@ -82,14 +82,14 @@ class MoviesController {
     ) {
         record NewMovie(
                 String title,
-                String plot,
+                String overview,
                 String genre
         ) {
         }
 
         record MovieSource(
                 String title,
-                String plot,
+                String overview,
                 String[] genres
         ) {
         }
