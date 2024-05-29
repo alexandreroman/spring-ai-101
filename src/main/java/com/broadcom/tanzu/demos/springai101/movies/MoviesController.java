@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 @RestController
@@ -41,9 +42,18 @@ class MoviesController {
         this.vectorStore = vectorStore;
     }
 
+    private static String toDisplayLanguage(String lang) {
+        final var displayLang = Locale.forLanguageTag(lang).getDisplayLanguage(Locale.ENGLISH);
+        if (displayLang == null || displayLang.isEmpty()) {
+            return "english";
+        }
+        return displayLang;
+    }
+
     @GetMapping(value = "/movies", produces = MediaType.APPLICATION_JSON_VALUE)
     MovieMashupResponse movieMashup(@RequestParam("titles") String[] titles,
-                                    @RequestParam(name = "genre", defaultValue = "comedy") String genre) {
+                                    @RequestParam(name = "genre", defaultValue = "comedy") String genre,
+                                    @RequestParam(name = "lang", defaultValue = "en") String lang) {
         // Look for additional data.
         final var moviesById = new HashMap<String, Document>(2);
         for (final String title : titles) {
@@ -66,10 +76,13 @@ class MoviesController {
                                 create a movie overview for a new movie of genre {genre}.
                                 Generate a new title for this new movie.
 
+                                Translate the new movie overview to {lang}.
+
                                 SOURCES
                                 ---
                                 {movies}
                                 """)
+                        .param("lang", toDisplayLanguage(lang))
                         .param("genre", genre)
                         .param("movies", movies))
                 .call()
@@ -83,7 +96,8 @@ class MoviesController {
         record NewMovie(
                 String title,
                 String overview,
-                String genre
+                String genre,
+                String language
         ) {
         }
 
