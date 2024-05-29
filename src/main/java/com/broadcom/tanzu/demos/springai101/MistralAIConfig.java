@@ -49,7 +49,7 @@ class MistralAIConfig {
     }
 
     @Bean
-    RestClientCustomizer apiRateLimitter(@Value("${app.mistralai.rps}") int rps) {
+    RestClientCustomizer apiRateLimiter(@Value("${app.mistralai.rps}") int rps) {
         final var bucket = Bucket.builder()
                 .addLimit(limit -> limit.capacity(rps).refillGreedy(rps, Duration.ofMillis(1500)))
                 .build();
