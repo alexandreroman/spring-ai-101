@@ -31,8 +31,8 @@ class RestClientConfig {
             final var reqFactory = new SimpleClientHttpRequestFactory();
             // Override timeouts for the default RestClient.Builder instance.
             // which is used by Spring AI when sending outbound requests.
-            reqFactory.setConnectTimeout(Duration.ofSeconds(30));
-            reqFactory.setReadTimeout(Duration.ofSeconds(30));
+            reqFactory.setConnectTimeout(Duration.ofSeconds(10));
+            reqFactory.setReadTimeout(Duration.ofSeconds(60));
             restClientBuilder.requestFactory(reqFactory);
         };
     }

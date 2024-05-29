@@ -16,18 +16,27 @@
 
 package com.broadcom.tanzu.demos.springai101;
 
+import io.github.bucket4j.Bucket;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.embedding.EmbeddingModel;
 import org.springframework.ai.mistralai.MistralAiChatModel;
 import org.springframework.ai.mistralai.MistralAiEmbeddingModel;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.web.client.RestClientCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
+import java.time.Duration;
+
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnProperty(name = "app.ai-provider", havingValue = "mistralai")
 class MistralAIConfig {
+    private final Logger logger = LoggerFactory.getLogger(MistralAIConfig.class);
+
     @Bean
     ChatClient.Builder chatClientBuilder(MistralAiChatModel mistralAiChatModel) {
         return ChatClient.builder(mistralAiChatModel);
@@ -37,5 +46,22 @@ class MistralAIConfig {
     @Primary
     EmbeddingModel embeddingModel(MistralAiEmbeddingModel mistralAiEmbeddingModel) {
         return mistralAiEmbeddingModel;
+    }
+
+    @Bean
+    RestClientCustomizer apiRateLimitter(@Value("${app.mistralai.rps}") int rps) {
+        final var bucket = Bucket.builder()
+                .addLimit(limit -> limit.capacity(rps).refillGreedy(rps, Duration.ofMillis(1500)))
+                .build();
+        return restClientBuilder -> {
+            restClientBuilder.requestInitializer(request -> {
+                try {
+                    logger.trace("Applying rate limiter");
+                    bucket.asBlocking().consume(1);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException("Unexpected exception", e);
+                }
+            });
+        };
     }
 }
