@@ -53,13 +53,25 @@ class HelloController {
         final var res = new StringBuilder(128);
         res.append("Current time is: ").append(Instant.now()).append("\n\n");
 
+        final var sysPrompt = """
+                You are a helpful AI assistant.
+                Be kind, be polite and do your best to answer user's questions.
+                """;
         final var p1 = String.format("Hello, my name is %s.", name);
         res.append("💬️ ").append(p1).append("\n");
-        res.append("🤖 ").append(chatClient.prompt().advisors(advisors).user(p1).call().content()).append("\n\n");
+        res.append("🤖 ").append(
+                chatClient.prompt().advisors(advisors)
+                        .system(sysPrompt)
+                        .user(p1)
+                        .call().content()).append("\n\n");
 
         final var p2 = "Hello, what's my name?";
         res.append("💬️ ").append(p2).append("\n");
-        res.append("🤖 ").append(chatClient.prompt().advisors(advisors).user(p2).call().content()).append("\n");
+        res.append("🤖 ").append(
+                chatClient.prompt().advisors(advisors)
+                        .system(sysPrompt)
+                        .user(p2)
+                        .call().content()).append("\n");
 
         return res;
     }
