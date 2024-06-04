@@ -38,8 +38,7 @@ class HelloController {
 
     @GetMapping(value = "/hello", produces = MediaType.TEXT_PLAIN_VALUE)
     CharSequence hello(@RequestParam(name = "n", defaultValue = "John Doe") String name) {
-        // In this example, you can see that the AI engine has no "session" or memory of past conversations,
-        // as RequestResponseAdvisor is provided.
+        // In this example, you can see that the AI engine has no "session" or memory of past conversations.
         return chatWithAI(name, List.of());
     }
 
@@ -51,17 +50,17 @@ class HelloController {
     }
 
     private CharSequence chatWithAI(String name, List<RequestResponseAdvisor> advisors) {
-        final var buf = new StringBuilder();
-        buf.append("Current time is: ").append(Instant.now()).append("\n\n");
+        final var res = new StringBuilder(128);
+        res.append("Current time is: ").append(Instant.now()).append("\n\n");
 
         final var p1 = String.format("Hello, my name is %s.", name);
-        buf.append("💬️ ").append(p1).append("\n");
-        buf.append("🤖 ").append(chatClient.prompt().advisors(advisors).user(p1).call().content()).append("\n\n");
+        res.append("💬️ ").append(p1).append("\n");
+        res.append("🤖 ").append(chatClient.prompt().advisors(advisors).user(p1).call().content()).append("\n\n");
 
         final var p2 = "Hello, what's my name?";
-        buf.append("💬️ ").append(p2).append("\n");
-        buf.append("🤖 ").append(chatClient.prompt().advisors(advisors).user(p2).call().content()).append("\n");
+        res.append("💬️ ").append(p2).append("\n");
+        res.append("🤖 ").append(chatClient.prompt().advisors(advisors).user(p2).call().content()).append("\n");
 
-        return buf;
+        return res;
     }
 }
