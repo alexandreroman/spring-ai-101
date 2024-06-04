@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package com.broadcom.tanzu.demos.springai101.movies.impl;
+package com.broadcom.tanzu.demos.springai101.movies;
 
-import com.broadcom.tanzu.demos.springai101.movies.Movie;
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvException;
@@ -51,7 +50,6 @@ class MovieDatasetLoader {
         this.movieProcessors = movieProcessors;
     }
 
-    @PostConstruct
     public int load() throws IOException {
         return Observation.createNotStarted("load-movies", observationRegistry)
                 .observeChecked(this::doLoad);

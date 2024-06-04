@@ -17,6 +17,7 @@
 package com.broadcom.tanzu.demos.springai101.movies.impl;
 
 import com.broadcom.tanzu.demos.springai101.movies.Movie;
+import com.broadcom.tanzu.demos.springai101.movies.MovieProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ai.document.Document;

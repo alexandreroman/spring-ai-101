@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -34,10 +35,12 @@ import java.util.stream.Collectors;
 @RestController
 class MoviesController {
     private final Logger logger = LoggerFactory.getLogger(MoviesController.class);
+    private final MovieDatasetLoader movieDatasetLoader;
     private final ChatClient chatClient;
     private final VectorStore vectorStore;
 
-    MoviesController(ChatClient.Builder chatClientBuilder, VectorStore vectorStore) {
+    MoviesController(MovieDatasetLoader movieDatasetLoader, ChatClient.Builder chatClientBuilder, VectorStore vectorStore) {
+        this.movieDatasetLoader = movieDatasetLoader;
         this.chatClient = chatClientBuilder.build();
         this.vectorStore = vectorStore;
     }
@@ -48,6 +51,12 @@ class MoviesController {
             return "english";
         }
         return displayLang;
+    }
+
+    @GetMapping(value = "/movies/init", produces = MediaType.TEXT_PLAIN_VALUE)
+    String init() throws IOException {
+        final int movieCount = movieDatasetLoader.load();
+        return String.format("Loaded %d movies", movieCount);
     }
 
     @GetMapping(value = "/movies", produces = MediaType.APPLICATION_JSON_VALUE)

@@ -14,10 +14,8 @@
  * limitations under the License.
  */
 
-package com.broadcom.tanzu.demos.springai101.movies.impl;
+package com.broadcom.tanzu.demos.springai101.movies;
 
-import com.broadcom.tanzu.demos.springai101.movies.Movie;
-
-interface MovieProcessor {
+public interface MovieProcessor {
     void process(Movie movie);
 }
