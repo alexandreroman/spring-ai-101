@@ -22,11 +22,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.function.Function;
+
 @RestController
 class WeatherV1Controller {
+    private final WeatherService weatherService;
     private final ChatClient chatClient;
 
-    WeatherV1Controller(ChatClient.Builder chatClientBuilder) {
+    WeatherV1Controller(WeatherService weatherService, ChatClient.Builder chatClientBuilder) {
+        this.weatherService = weatherService;
         this.chatClient = chatClientBuilder.build();
     }
 
@@ -35,8 +39,18 @@ class WeatherV1Controller {
         // Rely on a function to get additional (live) data.
         return chatClient.prompt()
                 .user(p -> p.text("What is the current temperature in {city}?").param("city", city))
-                .functions(WeatherFunctions.GET_WEATHER_BY_CITY)
+                .function("getWeatherByCity",
+                        "Get the current weather in a given city, including temperature (in Celsius).",
+                        new Function<ByCityRequest, Weather>() {
+                            @Override
+                            public Weather apply(ByCityRequest req) {
+                                return weatherService.getWeatherByCity(req.city());
+                            }
+                        })
                 .call()
                 .content();
+    }
+
+    record ByCityRequest(String city) {
     }
 }

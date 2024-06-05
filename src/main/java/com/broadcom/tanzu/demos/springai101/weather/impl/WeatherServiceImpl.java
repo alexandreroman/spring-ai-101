@@ -16,20 +16,23 @@
 
 package com.broadcom.tanzu.demos.springai101.weather.impl;
 
+import com.broadcom.tanzu.demos.springai101.weather.Weather;
+import com.broadcom.tanzu.demos.springai101.weather.WeatherService;
 import io.micrometer.observation.Observation;
 import io.micrometer.observation.ObservationRegistry;
 import org.springframework.stereotype.Service;
 
 @Service
-class WeatherService {
+class WeatherServiceImpl implements WeatherService {
     private final WeatherApi api;
     private final ObservationRegistry observationRegistry;
 
-    WeatherService(WeatherApi api, ObservationRegistry observationRegistry) {
+    WeatherServiceImpl(WeatherApi api, ObservationRegistry observationRegistry) {
         this.api = api;
         this.observationRegistry = observationRegistry;
     }
 
+    @Override
     public Weather getWeatherByCity(String city) {
         // Observe service calls using Micrometer API.
         return Observation.createNotStarted("getWeatherByCity", observationRegistry)

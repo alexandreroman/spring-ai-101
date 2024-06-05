@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.broadcom.tanzu.demos.springai101.weather.impl;
+package com.broadcom.tanzu.demos.springai101.weather;
 
 /**
  * Hold weather information for a city.
@@ -22,7 +22,7 @@ package com.broadcom.tanzu.demos.springai101.weather.impl;
  * @param city        city name
  * @param temperature temperature in Celsius
  */
-record Weather(
+public record Weather(
         String city,
         float temperature
 ) {

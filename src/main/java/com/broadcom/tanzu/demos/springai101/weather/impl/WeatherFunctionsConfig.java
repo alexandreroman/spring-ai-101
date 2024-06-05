@@ -16,6 +16,8 @@
 
 package com.broadcom.tanzu.demos.springai101.weather.impl;
 
+import com.broadcom.tanzu.demos.springai101.weather.Weather;
+import com.broadcom.tanzu.demos.springai101.weather.WeatherService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
