@@ -18,7 +18,7 @@ package com.broadcom.tanzu.demos.springai101.hello;
 
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.RequestResponseAdvisor;
-import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
+import org.springframework.ai.chat.client.advisor.PromptChatMemoryAdvisor;
 import org.springframework.ai.chat.memory.InMemoryChatMemory;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,7 +46,7 @@ class HelloController {
     CharSequence helloMemory(@RequestParam(name = "n", defaultValue = "John Doe") String name) {
         // Let's bring a MessageChatMemoryAdvisor to start a "real" conversation with the AI engine.
         // Note how the result is different this time.
-        return chatWithAI(name, List.of(new MessageChatMemoryAdvisor(new InMemoryChatMemory())));
+        return chatWithAI(name, List.of(new PromptChatMemoryAdvisor(new InMemoryChatMemory())));
     }
 
     private CharSequence chatWithAI(String name, List<RequestResponseAdvisor> advisors) {
