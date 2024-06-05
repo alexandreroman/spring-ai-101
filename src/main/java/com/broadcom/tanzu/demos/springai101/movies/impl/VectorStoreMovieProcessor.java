@@ -56,14 +56,16 @@ class VectorStoreMovieProcessor implements MovieProcessor {
                 movie.overview(), releaseDateStr,
                 movie.credits() == null ? "" : String.join(", ", movie.credits()));
 
-        //
-        final Document doc = new Document(movie.id(), movieContent,
-                // Add content metadata.
-                Map.of(
-                        "title", movie.title(),
-                        "releaseDate", releaseDateStr,
-                        "releaseYear", movie.releaseDate().getYear()
-                ));
+        // Set content metadata.
+        final Map<String, Object> metadata = Map.of(
+                "title", movie.title(),
+                "releaseDate", releaseDateStr,
+                "releaseYear", movie.releaseDate().getYear()
+        );
+
+        // Build a Spring AI Document which embeds a summary of the content we want to index.
+        final Document doc = new Document(movie.id(), movieContent, metadata);
+
         // Let's add this content to the vector store.
         // At this stage, we don't know the actual implementation.
         vectorStore.add(List.of(doc));
