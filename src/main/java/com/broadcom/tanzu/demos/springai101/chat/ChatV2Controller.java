@@ -31,9 +31,6 @@ class ChatV2Controller {
     @Value("classpath:/user-chat.st")
     private Resource userText;
 
-    @Value("classpath:/system-chat.st")
-    private Resource sysText;
-
     ChatV2Controller(ChatClient.Builder chatClientBuilder) {
         this.chatClient = chatClientBuilder.build();
     }
@@ -41,9 +38,12 @@ class ChatV2Controller {
     @GetMapping(value = "/chat/v2", produces = MediaType.TEXT_PLAIN_VALUE)
     String chat(@RequestParam("topic") String topic) {
         // Note the use of a system prompt to guide how the LLM should answer to your request.
-        // System and user prompts are stored as external resources.
+        // User prompt is actually loaded from an external resource.
         return chatClient.prompt()
-                .system(sysText)
+                .system("""
+                        You're a comedian.
+                        You tell non-offensive jokes.
+                        """)
                 .user(p -> p.text(userText).param("topic", topic))
                 .call()
                 .content();
