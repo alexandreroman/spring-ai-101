@@ -37,7 +37,7 @@ class ChatV2Controller {
 
     @GetMapping(value = "/chat/v2", produces = MediaType.TEXT_PLAIN_VALUE)
     String chat(@RequestParam("topic") String topic) {
-        // Note the use of a system prompt to guide how the LLM should answer to your request.
+        // Note the use of a system prompt to provide the LLM with hints.
         // User prompt is actually loaded from an external resource.
         return chatClient.prompt()
                 .system("""
