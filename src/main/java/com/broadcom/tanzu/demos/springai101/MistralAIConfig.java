@@ -50,6 +50,8 @@ class MistralAIConfig {
 
     @Bean
     RestClientCustomizer apiRateLimiter(@Value("${app.mistralai.rps}") int rps) {
+        // Mistral AI client has no built-in API rate limiter.
+        // Let's bring our own implementation.
         final var bucket = Bucket.builder()
                 .addLimit(limit -> limit.capacity(rps).refillGreedy(rps, Duration.ofMillis(1500)))
                 .build();

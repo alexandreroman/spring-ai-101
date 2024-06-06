@@ -63,7 +63,7 @@ class VectorStoreMovieProcessor implements MovieProcessor {
                 "releaseYear", movie.releaseDate().getYear()
         );
 
-        // Build a Spring AI Document which embeds a summary of the content we want to index.
+        // Build a Spring AI Document which holds a summary of the content we want to index.
         final Document doc = new Document(movie.id(), movieContent, metadata);
 
         // Let's add this content to the vector store.

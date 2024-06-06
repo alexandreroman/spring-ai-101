@@ -44,7 +44,7 @@ class HelloController {
 
     @GetMapping(value = "/hello-memory", produces = MediaType.TEXT_PLAIN_VALUE)
     CharSequence helloMemory(@RequestParam(name = "n", defaultValue = "John Doe") String name) {
-        // Let's bring a MessageChatMemoryAdvisor to start a "real" conversation with the AI engine.
+        // Let's bring a PromptChatMemoryAdvisor to start a "real" conversation with the AI engine.
         // Note how the result is different this time.
         return chatWithAI(name, List.of(new PromptChatMemoryAdvisor(new InMemoryChatMemory())));
     }
@@ -60,18 +60,20 @@ class HelloController {
         final var p1 = String.format("Hello, my name is %s.", name);
         res.append("💬️ ").append(p1).append("\n");
         res.append("🤖 ").append(
-                chatClient.prompt().advisors(advisors)
-                        .system(sysPrompt)
-                        .user(p1)
-                        .call().content()).append("\n\n");
+                        chatClient.prompt().advisors(advisors)
+                                .system(sysPrompt)
+                                .user(p1)
+                                .call().content())
+                .append("\n\n");
 
         final var p2 = "Hello, what's my name?";
         res.append("💬️ ").append(p2).append("\n");
         res.append("🤖 ").append(
-                chatClient.prompt().advisors(advisors)
-                        .system(sysPrompt)
-                        .user(p2)
-                        .call().content()).append("\n");
+                        chatClient.prompt().advisors(advisors)
+                                .system(sysPrompt)
+                                .user(p2)
+                                .call().content())
+                .append("\n");
 
         return res;
     }
