@@ -38,7 +38,7 @@ class ChatV3Controller {
         this.chatClient = chatClientBuilder.build();
     }
 
-    @GetMapping(value = "/chat/v3", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/chat/v3", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_XML_VALUE})
     JokeResponse chat(@RequestParam("topic") String topic) {
         // Not only we use prompt templating to format the query,
         // but we also convert the response to a Java construct.
