@@ -7,8 +7,11 @@ Using Spring AI, you can leverage a wide range of AI providers
 (such as OpenAI, Mistral AI, Google Gemini and many others) along with additional services
 such as vector databases.
 
-Spring AI provides an abstraction layer over AI providers API: this way you can focus
-on your code by using the same API, no matter what AI provider you pick.
+Spring AI provides an abstraction layer atop AI providers API: this way you can focus
+on your code by using the same API, no matter which AI provider you pick.
+
+> Spring AI is to AI providers what Spring Data is to databases:
+> the best abstraction layer to build portable Spring apps.
 
 ![Screenshot of an application using Spring AI ChatModel API ](chat.png)
 
@@ -108,6 +111,25 @@ Use this command to download the Mistral AI model for Ollama
 ```shell
 ollama pull mistral
 ```
+
+## OpenWeatherMap
+
+This app relies on [OpenWeatherMap](https://openweathermap.org) to get live
+weather information for a given city.
+
+Prior to running this app, you need to set the `OPENWEATHERMAP_API_KEY`
+environment variable.
+
+[See this page](https://home.openweathermap.org/api_keys) to create
+an OpenWeatherMap account for free and get an API key.
+
+Use this command to set the environment variable:
+
+```shell
+export OPENWEATHERMAP_API_KEY=xxxxx
+```
+
+🎉 You're ready to go!
 
 ## Demos
 
