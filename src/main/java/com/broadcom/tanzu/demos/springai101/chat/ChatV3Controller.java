@@ -49,6 +49,9 @@ class ChatV3Controller {
                 .entity(JokeResponse.class);
     }
 
-    record JokeResponse(String joke) {
+    record JokeResponse(
+            String joke,
+            String topic
+    ) {
     }
 }
