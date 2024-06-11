@@ -81,11 +81,11 @@ class MoviesController {
                 // Let's build a prompt which is augmented with additional data:
                 // this is what Retrieval Augmented Generation (RAG) is all about.
                 .user(p -> p.text("""
-                                Using only entries from the section SOURCES,
-                                create a movie overview for a new movie of genre {genre}.
+                                Using only movies from the section SOURCES as an inspiration,
+                                create a new movie of genre {genre} by combining source overviews into a new one.
                                 Generate a new title for this new movie.
 
-                                Translate the new movie overview to {lang}.
+                                Translate the new movie to {lang}.
 
                                 SOURCES
                                 ---
