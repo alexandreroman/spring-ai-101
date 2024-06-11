@@ -16,6 +16,8 @@
 
 package com.broadcom.tanzu.demos.springai101.weather;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +28,7 @@ import java.util.function.Function;
 
 @RestController
 class WeatherV1Controller {
+    private final Logger logger = LoggerFactory.getLogger(WeatherV1Controller.class);
     private final WeatherService weatherService;
     private final ChatClient chatClient;
 
@@ -44,6 +47,7 @@ class WeatherV1Controller {
                         new Function<ByCityRequest, Weather>() {
                             @Override
                             public Weather apply(ByCityRequest req) {
+                                logger.info("Loading weather from {} using OpenWeatherMap in inline function", req.city());
                                 return weatherService.getWeatherByCity(req.city());
                             }
                         })
