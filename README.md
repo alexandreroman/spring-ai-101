@@ -50,6 +50,7 @@ The app will automatically bind to the Redis database running as a container.
 This application has been tested with 3 AI providers:
 
 - OpenAI with `gpt4o`
+- Azure OpenAI with `gpt4o`
 - Mistral AI with `open-mixtral-8x22b`
 - Ollama (local) running Mistral AI with model `mistral`
 
@@ -75,6 +76,22 @@ Set `openai` as the AI provider:
 
 ```shell
 export APP_AI_PROVIDER=openai
+```
+
+### Azure OpenAI
+
+You need an Azure OpenAI API key to run this app.
+The `deployment name` should be `gpt-4o` 
+Set your API key as an environment variable:
+
+```shell
+export AZURE_OPENAI_API_KEY=xxxxxx
+```
+
+Set `azure` as the AI provider:
+
+```shell
+export APP_AI_PROVIDER=azure
 ```
 
 ### Mistral AI
@@ -172,6 +189,11 @@ Same as above with content negotiation (prioritizing XML output):
 
 ```shell
 http ":8080/chat/v3?topic=devops" Accept:text/xml
+```
+
+Transform a text into a set of Nodes & Relationships
+```shell
+http ":8080/chat/v4"
 ```
 
 ### Retrieval Augmented Generation (RAG)
