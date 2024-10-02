@@ -20,12 +20,14 @@ import org.springframework.ai.azure.openai.AzureOpenAiChatModel;
 import org.springframework.ai.azure.openai.AzureOpenAiEmbeddingModel;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.embedding.EmbeddingModel;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
 @Configuration(proxyBeanMethods = false)
+@EnableAutoConfiguration()
 @ConditionalOnProperty(name = "app.ai-provider", havingValue = "azure")
 class AzureOpenAIConfig {
     @Bean

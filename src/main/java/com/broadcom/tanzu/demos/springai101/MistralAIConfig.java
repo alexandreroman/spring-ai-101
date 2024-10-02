@@ -24,6 +24,7 @@ import org.springframework.ai.embedding.EmbeddingModel;
 import org.springframework.ai.mistralai.MistralAiChatModel;
 import org.springframework.ai.mistralai.MistralAiEmbeddingModel;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.web.client.RestClientCustomizer;
 import org.springframework.context.annotation.Bean;
@@ -34,6 +35,7 @@ import java.time.Duration;
 
 @Configuration(proxyBeanMethods = false)
 @ConditionalOnProperty(name = "app.ai-provider", havingValue = "mistralai")
+@EnableAutoConfiguration(excludeName = "org.springframework.ai.autoconfigure.azure.openai.AzureOpenAiAutoConfiguration")
 class MistralAIConfig {
     private final Logger logger = LoggerFactory.getLogger(MistralAIConfig.class);
 
