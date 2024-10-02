@@ -21,7 +21,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -50,24 +49,17 @@ class ChatV4Controller {
                 She was, in 1906, the first woman to become a professor at the University of Paris.
                 """;
 
-        Result r = chatClient
-                .prompt()
-                .user(p -> p.text(text)).call().entity(Result.class);
-        return r;
+        return chatClient.prompt()
+                .user(p -> p.text(text)).call()
+                .entity(Result.class);
     }
 
-    public record Node(String id, String type) {
+    record Node(String id, String type) {
     }
 
-    ;
-
-    public record Relationship(Node source, Node target, String type) {
+    record Relationship(Node source, Node target, String type) {
     }
 
-    ;
-
-    public record Result(List<Node> nodes, List<Relationship> relationships) {
+    record Result(List<Node> nodes, List<Relationship> relationships) {
     }
-
-    ;
 }

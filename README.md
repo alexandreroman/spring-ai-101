@@ -191,7 +191,8 @@ Same as above with content negotiation (prioritizing XML output):
 http ":8080/chat/v3?topic=devops" Accept:text/xml
 ```
 
-Transform a text into a set of Nodes & Relationships
+[Transform a text](src/main/java/com/broadcom/tanzu/demos/springai101/chat/ChatV4Controller.java)
+into a set of Nodes & Relationships:
 ```shell
 http ":8080/chat/v4"
 ```
