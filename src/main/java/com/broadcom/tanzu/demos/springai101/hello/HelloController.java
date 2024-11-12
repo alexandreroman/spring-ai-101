@@ -17,8 +17,8 @@
 package com.broadcom.tanzu.demos.springai101.hello;
 
 import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.ai.chat.client.RequestResponseAdvisor;
 import org.springframework.ai.chat.client.advisor.PromptChatMemoryAdvisor;
+import org.springframework.ai.chat.client.advisor.api.Advisor;
 import org.springframework.ai.chat.memory.InMemoryChatMemory;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,7 +49,7 @@ class HelloController {
         return chatWithAI(name, List.of(new PromptChatMemoryAdvisor(new InMemoryChatMemory())));
     }
 
-    private CharSequence chatWithAI(String name, List<RequestResponseAdvisor> advisors) {
+    private CharSequence chatWithAI(String name, List<Advisor> advisors) {
         final var res = new StringBuilder(128);
         res.append("Current time is: ").append(Instant.now()).append("\n\n");
 
