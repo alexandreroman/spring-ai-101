@@ -18,8 +18,10 @@ package com.broadcom.tanzu.demos.springai101;
 
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.embedding.EmbeddingModel;
+import org.springframework.ai.image.ImageModel;
 import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.ai.openai.OpenAiEmbeddingModel;
+import org.springframework.ai.openai.OpenAiImageModel;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -33,6 +35,11 @@ class OpenAIConfig {
     @Bean
     ChatClient.Builder chatClientBuilder(OpenAiChatModel openAiChatModel) {
         return ChatClient.builder(openAiChatModel);
+    }
+
+    @Bean
+    ImageModel imageModel(OpenAiImageModel openAiImageModel) {
+        return openAiImageModel;
     }
 
     @Bean

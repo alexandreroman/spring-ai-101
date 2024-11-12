@@ -231,6 +231,17 @@ Clear the database (make sure you restart the app after running this command):
 redis-cli flushdb
 ```
 
+### Image Generation
+
+For this section please enable OpenAI as the code uses DALL-E image model.
+You may use other AI providers as long as you pick the right image model.
+
+[Generate an image](src/main/java/com/broadcom/tanzu/demos/springai101/imagegen/ImageGeneratorController.java):
+
+```shell
+open "http://localhost:8080/imagegen?q=A vibrant photograph of a Java programmer working in his office with the Eiffel tower in background, wide shot, soft focus" 
+```
+
 ### Function Calling
 
 Verify that the AI provider has no way to figure out current weather
