@@ -272,10 +272,10 @@ http ":8080/weather/v3?q=Sort the top 5 most populated cities in France by tempe
 to answer a question, mapping the result to a JSON structure:
 
 ```shell
-http ":8080/weather/v4?u=https://live.staticflickr.com/65535/53783195627_283a3ae09d_c_d.jpg"
+http ":8080/weather/v4?u=https://live.staticflickr.com/65535/54135349734_8503393ea0_h.jpg"
 ```
 
-## Contribute
+## Contributing
 
 Contributions are always welcome!
 
